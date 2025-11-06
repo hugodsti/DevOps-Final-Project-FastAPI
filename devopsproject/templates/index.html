@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management</title>
+</head>
+<body>
+    <h1>User Management</h1>
+    <table>
+        {% for user in users %}
+            <tr>
+                <form class="user-update-form" data-id="{{ user.id }}">
+                    <td>
+                        <input type="text" name="name" placeholder="Name" value="{{ user.name }}">
+                    </td>
+                    <td>
+                        <input type="text" name="email" placeholder="E-mail" value="{{ user.email }}">
+                    </td>
+                    <td>
+                        <input type="text" name="password" placeholder="Password" value="{{ user.password }}">
+                    </td>
+                    <td>
+                        <input type="submit" value="Update">
+                    </td>
+                </form>
+                <td><button data-id="{{ user.id }}" class="user-delete-button">Delete</button></td>
+            </tr>
+        {% endfor %}
+        <tr>
+            <form id="user-add-form">
+                <td>
+                    <input type="text" name="name" placeholder="Name">
+                </td>
+                <td>
+                    <input type="text" name="email" placeholder="E-mail">
+                </td>
+                <td>
+                    <input type="text" name="password" placeholder="Password">
+                </td>
+                <td>
+                    <input type="submit" value="Add">
+                </td>
+            </form>
+        </tr>
+    </table>
+    <script>
+
+for (const updateForm of document.getElementsByClassName('user-update-form')) {
+    updateForm.addEventListener('submit', async e => {
+        e.preventDefault();
+        const id = updateForm.dataset.id;
+        const name = updateForm.elements['name'].value;
+        const email = updateForm.elements['email'].value;
+        const password = updateForm.elements['password'].value;
+        const response = await fetch(`/api/user/${id}?name=${name}&email=${email}&password=${password}`, { method: 'PUT' });
+        if (response.ok)
+            window.location.assign('/');
+        else
+            window.alert(`Unable to update user ${name}.`);
+    })
+}
+
+for (const deleteButton of document.getElementsByClassName('user-delete-button')) {
+    deleteButton.addEventListener('click', async e => {
+        e.preventDefault();
+        const id = deleteButton.dataset.id;
+        const response = await fetch(`/api/user/${id}`, { method: 'DELETE' });
+        if (response.ok)
+            window.location.assign('/');
+        else
+            window.alert(`Unable to delete user.`);
+    })
+}
+
+const addForm = document.getElementById('user-add-form')
+addForm.addEventListener('submit', async e => {
+    e.preventDefault();
+    const name = addForm.elements['name'].value;
+    const email = addForm.elements['email'].value;
+    const password = addForm.elements['password'].value;
+    const response = await fetch(`/api/user?name=${name}&email=${email}&password=${password}`, { method: 'POST' });
+    if (response.ok)
+        window.location.assign('/');
+    else
+        window.alert(`Unable to create user ${name}.`);
+})
+
+    </script>
+</body>
+</html>
