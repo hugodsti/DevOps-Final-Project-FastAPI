@@ -10,7 +10,7 @@ def get(id: int) -> dict:
 def create(name: str, email: str, password: str) -> None:
     if name == "" or email == "" or password == "":
         raise ValueError
-    if len(password)<3:
+    if len(password)<12:
         raise ValueError
     if db.find_user_with_email(email):
         raise ValueError
