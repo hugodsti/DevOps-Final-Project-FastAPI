@@ -58,8 +58,6 @@ They include:
 - GitHub Actions CI/CD pipeline
 - Kubernetes resources and dashboard *(if applicable)*  RACHID !!!
 
-Example:
-```md
 
 ## Screenshots
 
@@ -131,3 +129,87 @@ The following screenshots demonstrate how the application and the DevOps workflo
 
 ### GitHub Actions – Failed Merge / Validation
 ![GitHub Actions merge error](./screenshots/actions-error-merge.png)
+
+
+
+## 3. Useful Commands
+
+### Run the application locally (development)
+
+```bash
+python .\devopsproject\app.py
+```
+
+### Build the Docker image
+
+```bash
+docker build -t devopsapp .
+```
+
+---
+
+### Run the application using Docker
+
+```bash
+docker run --rm \
+  -e DEVOPS_DB_HOST=host.docker.internal \
+  -p 5000:5000 \
+  devopsapp
+```
+
+### Authenticate to Docker Hub
+
+```bash
+docker login
+```
+
+---
+
+### Tag the Docker image for Docker Hub
+
+```bash
+docker tag devopsapp hmorais1001/devopsapp:latest
+```
+
+---
+
+### Push the Docker image to Docker Hub
+
+```bash
+docker push hmorais1001/devopsapp:latest
+```
+
+---
+
+### Basic API testing locally
+
+```bash
+curl http://localhost:5000/
+curl http://localhost:5000/users
+```
+
+
+### 4. Links
+
+- GitHub Repository: https://github.com/hugodsti/DevOps-Final-Project-FastAPI
+- Docker Hub Image: https://hub.docker.com/r/hmorais1001/devopsapp
+
+## 5. Authors
+
+- **Hugo Morais**
+- **Rachid Djamal**
+- **Ojong Bessong Nkongho**
+
+---
+
+## 6. 
+
+- AI tools (ChatGPT, Gemini) were used to improve the clarity and structure of documentation and to facilitate certain tasks. No application code or infrastructure configuration was fully generated or directly used.
+
+
+## Bonus 
+
+- The application was developed in Python instead of the NodeJS application provided in the labs.
+- Additional API features, validation logic, and unit/functional tests were implemented compared to the base example.
+
+
