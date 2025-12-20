@@ -59,7 +59,7 @@ They include:
 - Docker build and run commands    
 - Docker Hub repository
 - GitHub Actions CI/CD pipeline
-- Kubernetes resources and dashboard *(if applicable)*  RACHID !!!
+- Kubernetes Deployment & Management
 
 
 ## Screenshots
