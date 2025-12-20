@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devops-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: devops-api
+  template:
+    metadata:
+      labels:
+        app: devops-api
+    spec:
+      containers:
+        - name: devops-api
+          image: hmorais1001/devopsapp:latest
+          ports:
+            - containerPort: 5000
+          env:
+            - name: DEVOPS_DB_HOST
+              value: mariadb
+            - name: DEVOPS_DB_PORT
+              value: "3306"
+            - name: DEVOPS_DB_USER
+              value: root
+            - name: DEVOPS_DB_PASSWORD
+              value: rootpassword
+            - name: DEVOPS_DB_DATABASE
+              value: devopsdb
