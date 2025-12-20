@@ -135,7 +135,7 @@ The following screenshots demonstrate how the application and the DevOps workflo
 
 
 
-## 📋 Kubernetes Deployment Verification
+##  Kubernetes Deployment Verification
 
 ### Pod Status
 This screenshot shows both MariaDB and FastAPI containers running successfully in the Kubernetes cluster.
