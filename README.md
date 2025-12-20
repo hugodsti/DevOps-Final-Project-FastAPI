@@ -239,6 +239,61 @@ curl http://localhost:5000/
 curl http://localhost:5000/users
 ```
 
+---
+
+### Kubernetes Commands
+
+
+# Start cluster
+```bash
+minikube start
+```
+
+---
+
+# Deploy everything
+```bash
+kubectl apply -f k8s/
+```
+
+---
+
+# Check status
+```bash
+kubectl get all
+kubectl get pods
+kubectl get services
+```
+
+---
+
+# Get access URL
+```bash
+minikube service devops-api --url
+```
+
+---
+
+# Test API
+```bash
+curl http://127.0.0.1:60338/
+```
+
+---
+
+# Check storage
+```bash
+kubectl get pv,pvc
+```
+
+---
+
+# View logs
+```bash
+kubectl logs deployment/devops-api
+```
+
+---
 
 ### 4. Links
 
