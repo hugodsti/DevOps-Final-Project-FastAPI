@@ -43,7 +43,11 @@ The project covers the full **DevOps lifecycle**, including:
 - The image is published to **Docker Hub** for easy distribution
 
 ### Kubernetes :
-- **Rachid rajoute ce que tu as fait !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!**
+-Local cluster setup using Minikube for container orchestration
+-Persistent storage with PersistentVolume (PV) and PersistentVolumeClaim (PVC) for MariaDB data persistence
+-Deployments for both MariaDB database and FastAPI application using Docker images
+-Services configured: ClusterIP for internal database access and NodePort for external API access
+-Deployment execution using kubectl apply -f k8s/ with all manifest files in the k8s/ directory
 
 ---
 
