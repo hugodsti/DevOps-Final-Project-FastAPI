@@ -68,7 +68,7 @@ By the time provisioning finishes, the application is fully installed, running, 
   bash
 cd iac
 vagrant up
-
+ ---
 
 ### Containerization
 
