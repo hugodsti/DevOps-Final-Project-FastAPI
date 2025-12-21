@@ -31,7 +31,7 @@ The project covers the full **DevOps lifecycle**, including:
   - Pipeline triggered on push and pull requests
 
 ### IaC :
--### IaC : Vagrant + Ansible
+-IaC : Vagrant + Ansible
 
 We added an Infrastructure as Code setup to run the FastAPI + MariaDB stack in a virtual machine.
 
