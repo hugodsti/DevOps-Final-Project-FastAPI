@@ -31,7 +31,27 @@ The project covers the full **DevOps lifecycle**, including:
   - Pipeline triggered on push and pull requests
 
 ### IaC :
-- **Oj rajoute ce que tu as fait !!!!!!!!!!!!!!!!!!!!!!!!!!**
+-### IaC : Vagrant + Ansible
+
+We added an Infrastructure as Code setup to run the FastAPI + MariaDB stack in a virtual machine.
+
+- `iac/Vagrantfile`
+  - Creates an Ubuntu VM (`ubuntu/jammy64`)
+  - Syncs the repository into `/vagrant` inside the VM
+  - Forwards port `5000` from the VM to the host
+  - Runs the Ansible playbook `iac/provision.yml` to provision everything
+
+- `iac/provision.yml`
+  - Installs Python, pip, venv, MariaDB and system dependencies
+  - Creates the MariaDB database and user
+  - Creates a virtualenv in `/opt/devopsapp/venv` and installs `requirements.txt`
+  - Deploys a `devopsapp` systemd service using `devopsproject/app.py`
+  - Waits for the app on port `5000` and performs an HTTP health check (`/`)
+
+- `iac/templates/devopsapp.service.j2`
+  - Systemd unit template for the app
+  - Sets DB environment variables (`DEVOPS_DB_HOST`, `DEVOPS_DB_NAME`, etc.)
+  - Starts the app via uvicorn on port `5000`
 
 
 

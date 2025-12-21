@@ -1,0 +1,98 @@
+---
+- name: Provision DevOps User API VM
+  hosts: all
+  become: true
+
+  vars:
+    app_user: devops
+    app_dir: /opt/devopsapp
+    repo_dir: /vagrant
+    app_src_dir: /vagrant/devopsproject
+
+    db_name: devopsdb
+    db_user: devopsuser
+    db_password: devopspassword
+
+  tasks:
+    - name: Update apt
+      apt:
+        update_cache: yes
+
+    - name: Install dependencies
+      apt:
+        name:
+          - python3
+          - python3-venv
+          - python3-pip
+          - mariadb-server
+          - libmariadb-dev
+          - python3-pymysql
+          - curl
+        state: present
+
+    - name: Start MariaDB
+      service:
+        name: mariadb
+        state: started
+        enabled: true
+
+    - name: Create app user
+      user:
+        name: "{{ app_user }}"
+        system: yes
+
+    - name: Create app directory
+      file:
+        path: "{{ app_dir }}"
+        state: directory
+        owner: "{{ app_user }}"
+        group: "{{ app_user }}"
+
+    - name: Create venv
+      command: python3 -m venv {{ app_dir }}/venv
+      args:
+        creates: "{{ app_dir }}/venv/bin/activate"
+
+    - name: Install Python requirements
+      pip:
+        requirements: "{{ repo_dir }}/requirements.txt"
+        virtualenv: "{{ app_dir }}/venv"
+
+    - name: Configure MariaDB (db + user)
+      shell: |
+        mysql -u root <<EOF2
+        CREATE DATABASE IF NOT EXISTS {{ db_name }};
+        CREATE USER IF NOT EXISTS '{{ db_user }}'@'localhost' IDENTIFIED BY '{{ db_password }}';
+        GRANT ALL PRIVILEGES ON {{ db_name }}.* TO '{{ db_user }}'@'localhost';
+        FLUSH PRIVILEGES;
+        EOF2
+      args:
+        executable: /bin/bash
+
+    - name: Install systemd service
+      template:
+        src: templates/devopsapp.service.j2
+        dest: /etc/systemd/system/devopsapp.service
+
+    - name: Reload systemd
+      command: systemctl daemon-reload
+
+    - name: Start app service
+      service:
+        name: devopsapp
+        state: started
+        enabled: true
+
+    - name: Wait until app responds on port 5000
+      wait_for:
+        port: 5000
+        timeout: 60
+
+    - name: Health check root endpoint
+      uri:
+        url: http://127.0.0.1:5000/
+        return_content: yes
+      register: hc
+
+    - debug:
+        msg: "Health check response: {{ hc.status }}"
