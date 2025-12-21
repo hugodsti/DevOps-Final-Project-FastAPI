@@ -68,8 +68,6 @@ By the time provisioning finishes, the application is fully installed, running, 
 cd iac
 vagrant up
 
-
-
 ### Containerization
 
 - Creation of a **Docker image** for the User API using a Dockerfile
